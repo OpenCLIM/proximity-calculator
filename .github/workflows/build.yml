@@ -1,0 +1,15 @@
+name: build
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: build image
+        run: docker build -t proximity-calculator .
+
+      - name: test
+        run: docker run -v $PWD/data:/data --name proximity-calculator proximity-calculator
