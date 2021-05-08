@@ -12,7 +12,10 @@ jobs:
         run: docker build -t proximity-calculator .
 
       - name: test
-        run: docker run -v $PWD/data:/data --name proximity-calculator proximity-calculator
+        run: docker run -v $PWD/data:/data proximity-calculator
+
+      - name: test extent
+        run: docker run -v $PWD/data:/data --env EXTENT=419284,570156,420836,571597 proximity-calculator
 
       - name: Archive test output
         uses: actions/upload-artifact@v2
