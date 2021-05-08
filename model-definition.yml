@@ -1,0 +1,37 @@
+kind: Model
+apiVersion: v1alpha4
+metadata:
+  displayName: Proximity Calculator
+  type: Modelling
+  name: proximity-calculator
+  summary: Tool for creating raster proximity layers from polygons
+  description: >
+    Creates a GeoTIFF with proximity of the nearest polygon to 100m grid cells.
+    https://github.com/openclim/proximity-calculator
+spec:
+  inputs:
+    env:
+      - name: EXTENT
+        title: Extent
+        type: string
+        desc: Must be formatted `<xmin>,<ymin>,<xmax>,<ymax>`. If not provided then the input data extent will be used.
+        default: None
+
+    dataslots:
+      - name: Polygons
+        description: GeoPackage (.gpkg) or Shapefile (.shp) dataset containing polygons
+        default:
+          - uid: f4e58421-5a13-4db6-b15f-d404f7b133cf
+            versionUid: f72ac585-87b5-4c3c-b61b-81e16f6a70cc
+        path: inputs/polygons
+        required: true
+
+  outputs:
+    datasets:
+      - name: outputs/raster.tif
+        type: GeoTIFF
+        desc: Output of rasterization
+
+      - name: outputs/proximity.tif
+        type: GeoTIFF
+        desc: proximity of polyons (m)
