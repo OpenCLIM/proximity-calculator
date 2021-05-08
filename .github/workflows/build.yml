@@ -13,3 +13,9 @@ jobs:
 
       - name: test
         run: docker run -v $PWD/data:/data --name proximity-calculator proximity-calculator
+
+      - name: Archive test output
+        uses: actions/upload-artifact@v2
+        with:
+          name: proximity-raster
+          path: data/outputs/proximity.tif

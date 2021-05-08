@@ -29,4 +29,7 @@ subprocess.call(['gdal_rasterize',
                  input_files[0], outputs / 'raster.tif'])
 
 
-subprocess.call(['gdal_proximity.py'])
+subprocess.call(['gdal_proximity.py',
+                 outputs / 'raster.tif', outputs / 'proximity.tif',
+                 '-distunits', 'GEO',
+                 '-co', 'COMPRESS=LZW', '-co', 'NUM_THREADS=ALL_CPUS'])
