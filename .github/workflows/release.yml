@@ -22,10 +22,11 @@ jobs:
         run: echo "TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
       - name: Upload to DAFNI
-        uses: dafnifacility/dafni-model-uploader@1.7
+        uses: dafnifacility/dafni-model-uploader@v1.6
         with:
           definition-path: './model-definition.yml'
           image-path: './proximity-calculator.tar.gz'
           username: ${{ secrets.DAFNI_SERVICE_ACCOUNT_USERNAME }}
           password: ${{ secrets.DAFNI_SERVICE_ACCOUNT_PASSWORD }}
           version-message: ${{ env.TAG }}
+          parent-model: "d7f603d8-657c-4bc6-8ee1-b776d3e9b57f"
