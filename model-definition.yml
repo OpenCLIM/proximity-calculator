@@ -35,3 +35,7 @@ spec:
       - name: outputs/proximity.tif
         type: GeoTIFF
         desc: proximity of polyons (m)
+
+      - name: outputs/proximity_calculator.log
+        type: Text
+        desc: Log output

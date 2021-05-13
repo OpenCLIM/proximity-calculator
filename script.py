@@ -14,9 +14,9 @@ assert len(input_files) > 0, 'No input files found'
 
 outputs.mkdir(exist_ok=True)
 
-logger = logging.getLogger('coverage_calculator')
+logger = logging.getLogger('proximity_calculator')
 logger.setLevel(logging.INFO)
-fh = logging.FileHandler(outputs / 'coverage_calculator.log')
+fh = logging.FileHandler(outputs / 'proximity_calculator.log')
 fh.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
 logger.addHandler(fh)
 
