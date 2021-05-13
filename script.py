@@ -1,6 +1,7 @@
 import subprocess
 from pathlib import Path
 import os
+import logging
 
 outputs = Path("/data/outputs")
 inputs = Path("/data/inputs")
@@ -13,11 +14,19 @@ assert len(input_files) > 0, 'No input files found'
 
 outputs.mkdir(exist_ok=True)
 
+logger = logging.getLogger('coverage_calculator')
+logger.setLevel(logging.INFO)
+fh = logging.FileHandler(outputs / 'coverage_calculator.log')
+fh.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+logger.addHandler(fh)
+
 extent = os.getenv('EXTENT')
 if extent == 'None' or extent is None:
     extent = []
 else:
     extent = ['-te', *extent.split(',')]
+
+logger.info(f'Rasterizing {selected_file}')
 
 subprocess.call(['gdal_rasterize',
                  '-burn', '1',
@@ -28,8 +37,13 @@ subprocess.call(['gdal_rasterize',
                  *extent,
                  input_files[0], outputs / 'raster.tif'])
 
+logger.info('Rasterizing completed')
+
+logger.info('Generating proximity raster')
 
 subprocess.call(['gdal_proximity.py',
                  outputs / 'raster.tif', outputs / 'proximity.tif',
                  '-distunits', 'GEO',
                  '-co', 'COMPRESS=LZW', '-co', 'NUM_THREADS=ALL_CPUS'])
+
+logger.info('Proximity raster generated')
