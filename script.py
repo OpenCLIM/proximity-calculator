@@ -26,6 +26,7 @@ if extent == 'None' or extent is None:
 else:
     extent = ['-te', *extent.split(',')]
 
+selected_file = input_files[0]
 logger.info(f'Rasterizing {selected_file}')
 
 subprocess.call(['gdal_rasterize',
@@ -35,7 +36,7 @@ subprocess.call(['gdal_rasterize',
                  '-ot', 'UInt16',
                  '-at',  # all pixels touched by polygons will be burned
                  *extent,
-                 input_files[0], outputs / 'raster.tif'])
+                 selected_file, outputs / 'raster.tif'])
 
 logger.info('Rasterizing completed')
 
