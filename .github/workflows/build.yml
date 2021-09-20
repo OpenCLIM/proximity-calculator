@@ -9,16 +9,16 @@ jobs:
         uses: actions/checkout@v2
 
       - name: build image
-        run: docker build -t proximity-calculator .
+        run: docker build -t udm-rasterise-proximity .
 
       - name: test
-        run: docker run -v $PWD/data:/data proximity-calculator
+        run: docker run -v $PWD/data:/data udm-rasterise-proximity
 
       - name: test extent
-        run: docker run -v $PWD/data:/data --env EXTENT=419284,570156,420836,571597 proximity-calculator
+        run: docker run -v $PWD/data:/data --env EXTENT = 218000,600000,313000,691000 udm-rasterise-proximity        
 
       - name: Archive test output
         uses: actions/upload-artifact@v2
         with:
-          name: proximity-raster
+          name: udm-rasterise-proximity
           path: data/outputs/proximity.tif

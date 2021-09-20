@@ -1,4 +1,8 @@
-FROM osgeo/gdal:alpine-normal-3.2.0
+FROM osgeo/gdal:alpine-small-latest
+
+RUN apk add --no-cache --upgrade bash
+
+RUN apk add --update --no-cache python3 && ln -sf python3 /usr/bin/python
 
 RUN mkdir /src
 

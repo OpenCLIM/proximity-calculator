@@ -1,20 +1,38 @@
 kind: Model
 apiVersion: v1alpha4
 metadata:
-  displayName: Proximity Calculator
+  displayName: UDM Rasterise Proximity 
   type: Modelling
-  name: proximity-calculator
-  summary: Tool for creating raster proximity layers from polygons
+  name: udm-rasterise-proximity
+  summary: Tool for creating standardised raster proximity layers from polygons
   description: >
-    Creates a GeoTIFF with proximity of the nearest polygon to 100m grid cells.
-    https://github.com/openclim/proximity-calculator
+    Creates an ASCII raster with standardised proximity to polygons for 100m grid cells.
+    https://github.com/openclim/udm-rasterise-proximity
 spec:
   inputs:
     env:
       - name: EXTENT
-        title: Extent
+        title: extent
         type: string
         desc: Must be formatted `<xmin>,<ymin>,<xmax>,<ymax>`. If not provided then the input data extent will be used.
+        default: None
+
+      - name: LAYER
+        title: layer
+        type: string
+        desc: Name of rasterised proximity layer which is appended with _proximity_100m.asc by the model. 
+        default: None
+
+      - name: POLARITY
+        title: polarity
+        type: string
+        desc: Must be either 'forward' or 'reverse' to select standardisation method - use 'reverse' as an attractor to provided polygons.
+        default: None
+
+      - name: SQUARED
+        title: squared
+        type: string
+        desc: Must be either 'true' or 'false' to determine whether distance-to-polygons in input layer are squared before standardisation. 
         default: None
 
     dataslots:
@@ -28,14 +46,10 @@ spec:
 
   outputs:
     datasets:
-      - name: outputs/raster.tif
-        type: GeoTIFF
-        desc: Output of rasterization
+      - name: outputs/layer_proximity_100m.asc
+        type: ASCII
+        desc: Standardised proximity to input layer (m2)
 
-      - name: outputs/proximity.tif
-        type: GeoTIFF
-        desc: proximity of polyons (m)
-
-      - name: outputs/proximity_calculator.log
+      - name: outputs/udm-rasterise-proximity.log
         type: Text
         desc: Log output
