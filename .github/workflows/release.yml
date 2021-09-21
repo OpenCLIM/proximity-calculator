@@ -13,10 +13,10 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Docker Build
-        run: docker build -t proximity-calculator .
+        run: docker build -t udm-rasterise-proximity
 
       - name: Compress docker image
-        run: docker save proximity-calculator | gzip > proximity-calculator.tar.gz
+        run: docker save udm-rasterise-proximity | gzip > udm-rasterise-proximity.tar.gz
 
       - name: Set tag as env
         run: echo "TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
@@ -25,7 +25,7 @@ jobs:
         uses: dafnifacility/dafni-model-uploader@v1.6
         with:
           definition-path: './model-definition.yml'
-          image-path: './proximity-calculator.tar.gz'
+          image-path: './udm-rasterise-proximity.tar.gz'
           username: ${{ secrets.DAFNI_SERVICE_ACCOUNT_USERNAME }}
           password: ${{ secrets.DAFNI_SERVICE_ACCOUNT_PASSWORD }}
           version-message: ${{ env.TAG }}
