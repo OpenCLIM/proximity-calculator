@@ -15,7 +15,7 @@ jobs:
         run: docker run -v $PWD/data:/data udm-rasterise-proximity
 
       - name: test extent
-        run: docker run -v $PWD/data:/data --env EXTENT = 218000,600000,313000,691000 udm-rasterise-proximity        
+        run: docker run -v $PWD/data:/data --env EXTENT=218000,600000,313000,691000 --env LAYER_NAME=output --env POLARITY=reverse --env SQUARED=True udm-rasterise-proximity
 
       - name: Archive test output
         uses: actions/upload-artifact@v2
