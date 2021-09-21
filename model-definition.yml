@@ -1,52 +1,60 @@
 kind: Model
-apiVersion: v1alpha4
+api_version: v1beta1
 metadata:
-  displayName: UDM Rasterise Proximity 
-  type: Modelling
+  display_name: UDM Rasterise Proximity
   name: udm-rasterise-proximity
+  publisher: Newcastle University
   summary: Tool for creating standardised raster proximity layers from polygons
   description: >
     Creates an ASCII raster with standardised proximity to polygons for 100m grid cells.
     https://github.com/openclim/udm-rasterise-proximity
 spec:
   inputs:
-    env:
+    parameters:
       - name: EXTENT
         title: extent
         type: string
         desc: Must be formatted `<xmin>,<ymin>,<xmax>,<ymax>`. If not provided then the input data extent will be used.
         default: None
+        required: true
 
-      - name: LAYER
-        title: layer
+      - name: LAYER_NAME
+        title: layer_name
         type: string
         desc: Name of rasterised proximity layer which is appended with _proximity_100m.asc by the model. 
-        default: None
+        default: 'output'
+        required: true
 
       - name: POLARITY
         title: polarity
         type: string
         desc: Must be either 'forward' or 'reverse' to select standardisation method - use 'reverse' as an attractor to provided polygons.
-        default: None
+        default: 'forward'
+        required: true
+        options:
+          - name: 'forward'
+            title: 'forward'
+          - name: 'reverse'
+            title: 'reverse'
 
       - name: SQUARED
         title: squared
-        type: string
-        desc: Must be either 'true' or 'false' to determine whether distance-to-polygons in input layer are squared before standardisation. 
-        default: None
+        type: boolean
+        desc: Determines whether distance-to-polygons in input layer are squared before standardisation.
+        default: True
+        required: true
 
     dataslots:
       - name: Polygons
         description: GeoPackage (.gpkg) or Shapefile (.shp) dataset containing polygons
         default:
-          - uid: f4e58421-5a13-4db6-b15f-d404f7b133cf
-            versionUid: f72ac585-87b5-4c3c-b61b-81e16f6a70cc
+          - f72ac585-87b5-4c3c-b61b-81e16f6a70cc
         path: inputs/polygons
         required: true
 
   outputs:
     datasets:
-      - name: outputs/layer_proximity_100m.asc
+      - name: outputs/output_proximity_100m.asc
         type: ASCII
         desc: Standardised proximity to input layer (m2)
 
