@@ -1,4 +1,3 @@
-import numpy as np
 import sys
 from osgeo import gdal
 from osgeo.gdalconst import *
@@ -89,44 +88,34 @@ if ds is None:
 band = ds.GetRasterBand(1)
 rows = ds.RasterYSize
 cols = ds.RasterXSize
-dist = band.ReadAsArray()
+distance = band.ReadAsArray()
 
 if os.getenv('SQUARED').lower() == 'true':
-    dist = dist * dist
+    distance = distance * distance
 
 # find distance minima maxima
-min_dist = dist.min()
-max_dist = dist.max()
+min_distance = distance.min()
+max_dist = distance.max()
 
 # set standardisation polarity
 polarity = os.getenv('POLARITY')
 if polarity == 'forward':
-    prox = (dist - min_dist) / (max_dist - min_dist)
+    proximity = (distance - min_distance) / (max_dist - min_distance)
 elif polarity == 'reverse':
-    prox = (max_dist - dist) / (max_dist - min_dist)
+    proximity = (max_dist - distance) / (max_dist - min_distance)
 else:
     raise Exception('Polarity must be either forward or reverse')
 
 # create the output image
 driver = gdal.GetDriverByName("GTiff")
 outData = driver.Create(str(temp / 'proximity_100m.tif'), cols, rows, 1, GDT_Float64)
-if outData is None:
-    print('Could not create output raster file')
-    sys.exit(1)
+assert outData is not None, 'Could not create output raster file'
 
 # georeference the image and set the projection
 outData.SetGeoTransform(ds.GetGeoTransform())
 outData.SetProjection(ds.GetProjection())
 
-# write data to output array
-arr_out = np.zeros((rows, cols), np.float64)
-
-for i in range(0, rows):
-    for j in range(0, cols):
-        arr_out[i, j] = prox[i, j]
-
-
-outData.GetRasterBand(1).WriteArray(arr_out)
+outData.GetRasterBand(1).WriteArray(proximity)
 outData.GetRasterBand(1).SetNoDataValue(-1)
 
 # flush data to disk
