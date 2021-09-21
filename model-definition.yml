@@ -14,21 +14,21 @@ spec:
       - name: EXTENT
         title: extent
         type: string
-        desc: Must be formatted `<xmin>,<ymin>,<xmax>,<ymax>`. If not provided then the input data extent will be used.
+        description: Must be formatted `<xmin>,<ymin>,<xmax>,<ymax>`. If not provided then the input data extent will be used.
         default: None
         required: true
 
       - name: LAYER_NAME
         title: layer_name
         type: string
-        desc: Name of rasterised proximity layer which is appended with _proximity_100m.asc by the model. 
+        description: Name of rasterised proximity layer which is appended with _proximity_100m.asc by the model. 
         default: 'output'
         required: true
 
       - name: POLARITY
         title: polarity
         type: string
-        desc: Must be either 'forward' or 'reverse' to select standardisation method - use 'reverse' as an attractor to provided polygons.
+        description: Must be either 'forward' or 'reverse' to select standardisation method - use 'reverse' as an attractor to provided polygons.
         default: 'forward'
         required: true
         options:
@@ -40,7 +40,7 @@ spec:
       - name: SQUARED
         title: squared
         type: boolean
-        desc: Determines whether distance-to-polygons in input layer are squared before standardisation.
+        description: Determines whether distance-to-polygons in input layer are squared before standardisation.
         default: True
         required: true
 
@@ -56,8 +56,8 @@ spec:
     datasets:
       - name: outputs/output_proximity_100m.asc
         type: ASCII
-        desc: Standardised proximity to input layer (m2)
+        description: Standardised proximity to input layer (m2)
 
       - name: outputs/udm-rasterise-proximity.log
         type: Text
-        desc: Log output
+        description: Log output
