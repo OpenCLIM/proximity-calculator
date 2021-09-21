@@ -1,4 +1,3 @@
-import sys
 from osgeo import gdal
 from osgeo.gdalconst import *
 import subprocess
@@ -79,15 +78,14 @@ logger.info('Distance raster generated')
 logger.info('Generating proximity raster')
 
 # load raster
-ds = gdal.Open(str(temp / 'distance_100m.tif'))
-if ds is None:
-    print('Could not open input raster file')
-    sys.exit(1)
+distance_tif = gdal.Open(str(temp / 'distance_100m.tif'))
+
+assert distance_tif is not None, 'Could not open distance raster'
 
 # read raster data and get info about it
-band = ds.GetRasterBand(1)
-rows = ds.RasterYSize
-cols = ds.RasterXSize
+band = distance_tif.GetRasterBand(1)
+rows = distance_tif.RasterYSize
+cols = distance_tif.RasterXSize
 distance = band.ReadAsArray()
 
 if os.getenv('SQUARED').lower() == 'true':
@@ -108,35 +106,36 @@ else:
 
 # create the output image
 driver = gdal.GetDriverByName("GTiff")
-outData = driver.Create(str(temp / 'proximity_100m.tif'), cols, rows, 1, GDT_Float64)
-assert outData is not None, 'Could not create output raster file'
+proximity_tif_path = str(temp / 'proximity_100m.tif')
+proximity_tif = driver.Create(proximity_tif_path, cols, rows, 1, GDT_Float64)
+assert proximity_tif is not None, 'Could not create output raster file'
 
 # georeference the image and set the projection
-outData.SetGeoTransform(ds.GetGeoTransform())
-outData.SetProjection(ds.GetProjection())
+proximity_tif.SetGeoTransform(distance_tif.GetGeoTransform())
+proximity_tif.SetProjection(distance_tif.GetProjection())
 
-outData.GetRasterBand(1).WriteArray(proximity)
-outData.GetRasterBand(1).SetNoDataValue(-1)
+proximity_tif.GetRasterBand(1).WriteArray(proximity)
+proximity_tif.GetRasterBand(1).SetNoDataValue(-1)
 
 # flush data to disk
-outData.FlushCache()
+proximity_tif.FlushCache()
 
-outData = None
+proximity_tif = None
 band = None
-ds = None
+distance_tif = None
 
 logger.info('Proximity raster generated')
 
 # get layer name
 layer_name = os.getenv('LAYER_NAME') + '_proximity_100m.asc'
 
-# translate
+# translate to ascii
 logger.info('Translating raster')
 
 subprocess.call(['gdal_translate',                 
                  '-tr', '100', '100',   # target resolution <xres> <yres>
                  '-ot', 'Float64',		# output data type
                  '-a_nodata', '-1',		# set nodata value
-                 temp / 'proximity_100m.tif', outputs / layer_name])  # srcfile, dstfile
+                 proximity_tif_path, outputs / layer_name])  # srcfile, dstfile
 
 logger.info('Translating completed')
