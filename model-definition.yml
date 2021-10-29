@@ -5,7 +5,7 @@ metadata:
   name: udm-rasterise-proximity
   publisher: Newcastle University
   summary: Tool for creating standardised raster proximity layers from polygons
-  source_code: https://github.com/OpenCLIM/udm-rasterise-zones
+  source_code: https://github.com/OpenCLIM/udm-rasterise-proximity
   description: >
     Creates an ASCII raster with standardised proximity to polygons for 100m grid cells.
     https://github.com/openclim/udm-rasterise-proximity
