@@ -92,17 +92,19 @@ if os.getenv('SQUARED').lower() == 'true':
     distance = distance * distance
 
 # find distance minima maxima
-min_distance = distance.min()
-max_dist = distance.max()
+#min_distance = distance.min()
+#max_dist = distance.max()
 
 # set standardisation polarity
-polarity = os.getenv('POLARITY')
-if polarity == 'forward':
-    proximity = (distance - min_distance) / (max_dist - min_distance)
-elif polarity == 'reverse':
-    proximity = (max_dist - distance) / (max_dist - min_distance)
-else:
-    raise Exception('Polarity must be either forward or reverse')
+#polarity = os.getenv('POLARITY')
+#if polarity == 'forward':
+#    proximity = (distance - min_distance) / (max_dist - min_distance)
+#elif polarity == 'reverse':
+#    proximity = (max_dist - distance) / (max_dist - min_distance)
+#else:
+#    raise Exception('Polarity must be either forward or reverse')
+
+proximity = distance
 
 # create the output image
 driver = gdal.GetDriverByName("GTiff")

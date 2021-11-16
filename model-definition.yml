@@ -4,10 +4,10 @@ metadata:
   display_name: UDM Rasterise Proximity
   name: udm-rasterise-proximity
   publisher: Newcastle University
-  summary: Tool for creating standardised raster proximity layers from polygons
+  summary: Tool for creating raster proximity layers from polygons
   source_code: https://github.com/OpenCLIM/udm-rasterise-proximity
   description: >
-    Creates an ASCII raster with standardised proximity to polygons for 100m grid cells.
+    Creates an ASCII raster with proximity to polygons for 100m grid cells.
     https://github.com/openclim/udm-rasterise-proximity
 spec:
   inputs:
@@ -24,24 +24,12 @@ spec:
         type: string
         description: Name of rasterised proximity layer which is appended with _proximity_100m.asc by the model. 
         default: 'output'
-        required: true
-
-      - name: POLARITY
-        title: polarity
-        type: string
-        description: Must be either 'forward' or 'reverse' to select standardisation method - use 'reverse' as an attractor to provided polygons.
-        default: 'forward'
-        required: true
-        options:
-          - name: 'forward'
-            title: 'forward'
-          - name: 'reverse'
-            title: 'reverse'
+        required: true      
 
       - name: SQUARED
         title: squared
         type: boolean
-        description: Determines whether distance-to-polygons in input layer are squared before standardisation.
+        description: Determines whether distance-to-polygons in input layer is squared.
         default: True
         required: true
 
