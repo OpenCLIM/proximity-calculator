@@ -15,6 +15,9 @@ inputs = data / 'inputs'
 polygons = inputs / 'polygons'
 temp = data / 'temp'
 outputs = data / 'outputs'
+log_dir = outputs / 'log'
+output_data_dir = outputs / 'data'
+
 
 temp.mkdir(exist_ok=True)
 outputs.mkdir(exist_ok=True)
@@ -22,7 +25,7 @@ outputs.mkdir(exist_ok=True)
 # configure logger
 logger = logging.getLogger('udm-rasterise-proximity')
 logger.setLevel(logging.INFO)
-fh = logging.FileHandler(outputs / 'udm-rasterise-proximity.log')
+fh = logging.FileHandler(log_dir / 'udm-rasterise-proximity.log')
 formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 fh.setFormatter(formatter)
 logger.addHandler(fh)
@@ -138,6 +141,6 @@ subprocess.call(['gdal_translate',
                  '-tr', '100', '100',   # target resolution <xres> <yres>
                  '-ot', 'Float64',		# output data type
                  '-a_nodata', '-1',		# set nodata value
-                 proximity_tif_path, outputs / layer_name])  # srcfile, dstfile
+                 proximity_tif_path, output_data_dir / layer_name])  # srcfile, dstfile
 
 logger.info('Translating completed')
