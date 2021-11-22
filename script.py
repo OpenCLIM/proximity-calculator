@@ -21,6 +21,8 @@ output_data_dir = outputs / 'data'
 
 temp.mkdir(exist_ok=True)
 outputs.mkdir(exist_ok=True)
+log_dir.mkdir(exist_ok=True)
+output_data_dir.mkdir(exist_ok=True)
 
 # configure logger
 logger = logging.getLogger('udm-rasterise-proximity')
