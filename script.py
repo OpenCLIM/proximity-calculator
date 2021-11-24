@@ -4,6 +4,9 @@ import subprocess
 from pathlib import Path
 import os
 import logging
+from random import choice
+import string
+
 
 # register all of the GDAL drivers
 gdal.AllRegister()
@@ -22,7 +25,8 @@ outputs.mkdir(exist_ok=True)
 # configure logger
 logger = logging.getLogger('udm-rasterise-proximity')
 logger.setLevel(logging.INFO)
-fh = logging.FileHandler(outputs / 'udm-rasterise-proximity.log')
+log_name = 'udm-rasterise-proximity-%s.log' %(''.join(choice(string.ascii_uppercase + string.digits) for _ in range(6)))
+fh = logging.FileHandler(outputs / log_name)
 formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 fh.setFormatter(formatter)
 logger.addHandler(fh)
