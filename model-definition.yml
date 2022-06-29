@@ -33,6 +33,13 @@ spec:
         default: True
         required: true
 
+      - name: INPUTFILE
+        title: input file
+        type: string
+        description: Only specify if multiple files within the input dataset and only one of those files is to be rasterised.
+        default: None
+        required: false
+
     dataslots:
       - name: Polygons
         description: GeoPackage (.gpkg) or Shapefile (.shp) dataset containing polygons

@@ -37,7 +37,21 @@ for ext in ['shp', 'gpkg']:
     input_files.extend(list(polygons.glob(f"*.{ext}")))
 
 assert len(input_files) > 0, 'No input files found'
-selected_file = input_files[0]
+
+#selected_file = input_files[0]
+# use the first file in the list as the input polygons, or fetch the name passed if more than one input file found
+if len(input_files) > 1:
+    input_file_name = os.getenv('INPUTFILE')
+    if input_file_name is not None:        
+    
+        for file in input_files:
+            if input_file_name in str(file):
+                selected_file = file
+                break
+    else:
+        selected_file = input_files[0]
+else:
+    selected_file = input_files[0]
 
 extent = os.getenv('EXTENT')
 
