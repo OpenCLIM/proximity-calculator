@@ -19,3 +19,5 @@ A single GeoPackage (.gpkg) or Shapefile (.shp) containing polygons is required.
 For '<any parameters which need passing>` use the following notation:
  `--env <parameter name>=<parameter value>`
 
+To see the list of possible parameters, see the model definition file (.yml) in the base directory of the repository.
+
